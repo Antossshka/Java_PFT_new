@@ -1,0 +1,36 @@
+apply plugin: 'java'
+
+test {
+    useTestNG()
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'org.testng', name: 'testng', version: '7.7.1'
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.0'
+    implementation 'jakarta.jws:jakarta.jws-api:3.0.0'
+    implementation 'jakarta.xml.ws:jakarta.xml.ws-api:4.0.0'
+    implementation 'com.sun.xml.ws:jaxws-rt:4.0.1'
+    implementation 'biz.futureware.mantis:mantis-axis-soap-client:1.2.19'
+}
+
+buildscript{
+    repositories{
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'com.yupzip:wsdl2java:2.3.2'
+    }
+}
+
+apply plugin: 'com.yupzip.wsdl2java'
+
+wsdl2java {
+    generatedWsdlDir = file("src/main/java")
+    wsdlDir = file("src/main/resources/")
+    wsdlsToGenerate = ['src/main/resources/geoservice.wsdl']
+    wsdlsToGenerate = [["$projectDir/src/main/resources/geoservice.WSDL"]]
+}

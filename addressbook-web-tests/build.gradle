@@ -11,5 +11,43 @@ repositories {
 dependencies {
     implementation group: 'org.testng', name: 'testng', version: '7.7.1'
     implementation 'org.seleniumhq.selenium:selenium-java:4.8.3'
+    implementation 'org.hamcrest:java-hamcrest:2.0.0.0'
+    implementation group: 'com.beust', name: 'jcommander', version: '1.82'
+    implementation 'com.thoughtworks.xstream:xstream:1.4.20'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'ch.qos.logback:logback-classic:1.4.7'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
+    implementation 'org.hibernate:hibernate-core:5.6.14.Final'
 }
 
+task testGroups(type: Test) {
+    useTestNG{
+        suites 'src/test/resources/testng-groups.xml'
+    }
+    if (project.hasProperty('browser')) {
+        systemProperty('browser', "${browser}")
+    }
+    if (project.hasProperty('target')) {
+        systemProperty('browser', "${target}")
+    }
+
+    if (project.hasProperty('verifyUI')) {
+        systemProperty('verifyUI', "${verifyUI}")
+    }
+}
+
+task testContacts(type: Test) {
+    useTestNG{
+        suites 'src/test/resources/testng-contacts.xml'
+    }
+    if (project.hasProperty('browser')) {
+        systemProperty('browser', "${browser}")
+    }
+    if (project.hasProperty('target')) {
+        systemProperty('browser', "${target}")
+    }
+
+    if (project.hasProperty('verifyUI')) {
+        systemProperty('verifyUI', "${verifyUI}")
+    }
+}

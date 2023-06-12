@@ -1,0 +1,32 @@
+<list>
+  <ru.stqa.pft.addressbook.model.ContactData>
+    <firstname>Firstname 0</firstname>
+    <middlename>Middlename 0</middlename>
+    <lastname>Lastname 0</lastname>
+    <email>email0@mail.ru</email>
+    <address>city0</address>
+    <group>test1</group>
+    <id>2147483647</id>
+    <mobilePhone>79991112210</mobilePhone>
+  </ru.stqa.pft.addressbook.model.ContactData>
+  <ru.stqa.pft.addressbook.model.ContactData>
+    <firstname>Firstname 1</firstname>
+    <middlename>Middlename 1</middlename>
+    <lastname>Lastname 1</lastname>
+    <email>email1@mail.ru</email>
+    <address>city1</address>
+    <group>test1</group>
+    <id>2147483647</id>
+    <mobilePhone>79991112211</mobilePhone>
+  </ru.stqa.pft.addressbook.model.ContactData>
+  <ru.stqa.pft.addressbook.model.ContactData>
+    <firstname>Firstname 2</firstname>
+    <middlename>Middlename 2</middlename>
+    <lastname>Lastname 2</lastname>
+    <email>email2@mail.ru</email>
+    <address>city2</address>
+    <group>test1</group>
+    <id>2147483647</id>
+    <mobilePhone>79991112212</mobilePhone>
+  </ru.stqa.pft.addressbook.model.ContactData>
+</list>

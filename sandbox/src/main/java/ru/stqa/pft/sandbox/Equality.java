@@ -6,8 +6,7 @@ public class Equality {
     String s1 = "firefox";
     String s2 = new String(s1);
 
-    System.out.println(s1 == s2); //сравниваются ссылки
-    System.out.println(s1.equals(s2)); //логическое сравнение
-
+    System.out.println(s1 == s2);
+    System.out.println(s1.equals(s2));
   }
 }

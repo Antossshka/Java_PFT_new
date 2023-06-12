@@ -1,15 +1,74 @@
 package ru.stqa.pft.addressbook.tests;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.thoughtworks.xstream.XStream;
 import org.testng.annotations.*;
 import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
+import java.io.*;
+import java.util.Iterator;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+@SuppressWarnings("unchecked")
 public class GroupCreationTest extends TestBase {
 
-  @Test
-  public void testGroupCreation() throws Exception {
-    app.navigationHelper().gotoGroupPage();
-    app.groupHelper().createGroup(new GroupData("test1", null, null));
-    app.logout();
+  @DataProvider
+  public Iterator<Object[]> validGroupsFromXml() throws IOException {
+    try (BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/groups.xml"))) {
+      String xml = "";
+      String line = reader.readLine();
+      while (line != null) {
+        xml += line;
+        line = reader.readLine();
+      }
+      XStream xStream = new XStream();
+      xStream.processAnnotations(GroupData.class);
+      xStream.allowTypes(new Class[]{GroupData.class});
+      List<GroupData> groups = (List<GroupData>) xStream.fromXML(xml);
+      return groups.stream().map(g -> new Object[]{g}).toList().iterator();
+    }
+  }
+
+  @DataProvider
+  public Iterator<Object[]> validGroupsFromJson() throws IOException {
+    try (BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/groups.json"))) {
+      String json = "";
+      String line = reader.readLine();
+      while (line != null) {
+        json += line;
+        line = reader.readLine();
+      }
+      Gson gson = new Gson();
+      List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>(){}.getType()); //List<GroupData>.class
+      return groups.stream().map(g -> new Object[]{g}).toList().iterator();
+    }
+  }
+
+  @Test(dataProvider = "validGroupsFromXml", enabled = true)
+  public void testGroupCreation(GroupData group) throws Exception {
+      app.goTo().groupPage();
+      Groups before = app.db().groups();
+      app.group().create(group);
+      assertThat(app.group().count(), equalTo(before.size() + 1));
+      Groups after = app.db().groups();
+      assertThat(after, equalTo(
+              before.withAdded(group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+  }
+
+  @Test(enabled = false)
+  public void testBadGroupCreation() throws Exception {
+    app.goTo().groupPage();
+    Groups before = app.group().all();
+    GroupData group = new GroupData().withName("test1'");
+    app.group().create(group);
+    assertThat(app.group().count(), equalTo(before.size()));
+    Groups after = app.group().all();
+    assertThat(after, equalTo(before));
+    verifyGroupListInUI(); //В конфигурации запуска -DverifyUI=true
   }
 
 }
