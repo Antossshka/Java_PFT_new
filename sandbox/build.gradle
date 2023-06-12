@@ -1,0 +1,16 @@
+apply plugin: 'java'
+apply plugin: 'application'
+mainClassName = "ru.stqa.pft.sandbox.MyFirstProgram"
+
+test {
+    useTestNG()
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'org.testng', name: 'testng', version: '7.7.1'
+}
+
