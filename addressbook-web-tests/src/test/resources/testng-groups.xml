@@ -5,7 +5,7 @@
         <classes>
 
             <class name="ru.stqa.pft.addressbook.tests.GroupModificationTest" />
-            
+
         </classes>
     </test>
 </suite>
