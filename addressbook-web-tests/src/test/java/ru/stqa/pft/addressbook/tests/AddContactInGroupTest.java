@@ -60,6 +60,6 @@ public class AddContactInGroupTest extends TestBase{
     if (groupsF.isEmpty()) {
       return null;
     }
-    return groups.iterator().next();
+    return groupsF.iterator().next();
   }
 }
